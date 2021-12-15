@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>  
+  <arg name="robot" default="machines"/>
+  <arg name="debug" default="false"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="pause" default="false"/>
+  <arg name="world" default="home_env" /> 
+  <arg name="x" default="2.3"/>
+  <arg name="y" default="4.0"/>   
+  <arg name="z" default="0.0"/>  
+  <arg name="verbose" default="true"/>
+  
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+
+    <arg name="world_name" value="$(find rehab_robot)/worlds/$(arg world).world"/>
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="paused" value="$(arg pause)"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="headless" value="$(arg headless)"/>
+    <arg name="verbose" value="$(arg verbose)"/>
+    <!--
+      <env name="GAZEBO_MODEL_PATH" value="$(find simulation_gazebo)/models:$(optenv GAZEBO_MODEL_PATH)"/>
+    -->
+  </include>
+
+  <!--Using Xacro as URDF  -->
+
+  <param 
+  name="robot_description" 
+  command="$(find xacro)/xacro.py $(find rehab_robot)/urdf/rehab_robot.urdf.xacro" />
+
+  <node name="spawn_urdf" 
+  pkg="gazebo_ros" 
+  type="spawn_model" 
+  args="-param robot_description -urdf -model rehab_robot -x $(arg x) -y $(arg y) -z $(arg z)" />   
+
+  <node name="joint_state_publisher" 
+        pkg="joint_state_publisher" 
+        type="joint_state_publisher">
+  <!-- <param name="use_gui" value="TRUE"/> -->
+  </node>
+
+  <node name="robot_state_publisher" 
+  pkg="robot_state_publisher"
+  type="robot_state_publisher"/>  
+  
+     <node pkg="tf" type="static_transform_publisher" name="azure_to_pointCloud" args=" 0 0 0 -1.57 0 -1.57 azure_link point_cloud_link  20" /> 
+  
+ <!-- <node name="rviz" 
+  pkg="rviz" 
+  type="rviz" 
+  args="-d $(find rehab_robot)/rviz_config/rehab_robot.rviz"/> -->
+
+<!--  Include launch.xml if needed -->
+</launch>

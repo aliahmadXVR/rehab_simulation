@@ -1,0 +1,86 @@
+digraph G {
+node [shape=box];
+"base_link" [label="base_link"];
+"US_FR" [label="US_FR"];
+"C_BR" [label="C_BR"];
+"C_FR" [label="C_FR"];
+"C_FC" [label="C_FC"];
+"C_FL" [label="C_FL"];
+"C_BL" [label="C_BL"];
+"Column_link" [label="Column_link"];
+"Lidar_link" [label="Lidar_link"];
+"Pan_link" [label="Pan_link"];
+"tilt_link" [label="tilt_link"];
+"azure_link" [label="azure_link"];
+"point_cloud_link" [label="point_cloud_link"];
+"Screen_link" [label="Screen_link"];
+"US_RS1" [label="US_RS1"];
+"Caster_fornt" [label="Caster_fornt"];
+"US_FC" [label="US_FC"];
+"US_FL" [label="US_FL"];
+"US_BL" [label="US_BL"];
+"US_BR" [label="US_BR"];
+"Caster_back" [label="Caster_back"];
+"Bumper_link" [label="Bumper_link"];
+"Motor_left" [label="Motor_left"];
+"Motor_right" [label="Motor_right"];
+"intel_camera" [label="intel_camera"];
+"US_RS2" [label="US_RS2"];
+"US_LS1" [label="US_LS1"];
+"US_LS2" [label="US_LS2"];
+node [shape=ellipse, color=blue, fontcolor=blue];
+"base_link" -> "J10" [label="xyz: 0.187 0.106713 0.0297375 \nrpy: 0 -0 0"]
+"J10" -> "US_FR"
+"base_link" -> "J118" [label="xyz: -0.163598 0.13275 0.00955 \nrpy: 0 1.5708 -0"]
+"J118" -> "C_BR"
+"base_link" -> "J15" [label="xyz: 0.157011 0.11845 0.00945 \nrpy: 0 1.5708 -3.14159"]
+"J15" -> "C_FR"
+"base_link" -> "J16" [label="xyz: 0.155761 -0.00110112 0.0104 \nrpy: 0 1.5708 -0"]
+"J16" -> "C_FC"
+"base_link" -> "J17" [label="xyz: 0.155811 -0.11295 0.00945 \nrpy: 0 1.5708 -0"]
+"J17" -> "C_FL"
+"base_link" -> "J19" [label="xyz: -0.165944 -0.1327 0.0095 \nrpy: 0 1.5708 -0"]
+"J19" -> "C_BL"
+"base_link" -> "J20" [label="xyz: 0 0 0.188015 \nrpy: 0 -0 3.14159"]
+"J20" -> "Column_link"
+"Column_link" -> "j21" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"j21" -> "Lidar_link"
+"Column_link" -> "j22" [label="xyz: 0.000341148 0.000360989 0.521072 \nrpy: 0 -0 3.14159"]
+"j22" -> "Pan_link"
+"Pan_link" -> "j23" [label="xyz: 0.0189205 0.0568957 0.199268 \nrpy: -1.3723e-05 0.134997 0"]
+"j23" -> "tilt_link"
+"tilt_link" -> "j232" [label="xyz: 0.070862 -0.0739452 0.0374401 \nrpy: 1.38448e-05 -0.134997 -1.06851e-22"]
+"j232" -> "azure_link"
+"azure_link" -> "j_new" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"j_new" -> "point_cloud_link"
+"tilt_link" -> "j24" [label="xyz: 0.0705773 -0.0539437 0.000364428 \nrpy: 1.38448e-05 -0.134997 -1.06851e-22"]
+"j24" -> "Screen_link"
+"base_link" -> "J6" [label="xyz: 0.1495 0.169 0.03 \nrpy: 0 -0 1.5708"]
+"J6" -> "US_RS1"
+"base_link" -> "j1" [label="xyz: 0.153447 0 -0.0537746 \nrpy: 0 -0 0"]
+"j1" -> "Caster_fornt"
+"base_link" -> "j11" [label="xyz: 0.187 -0.0205 0.03 \nrpy: 0 -0 0"]
+"j11" -> "US_FC"
+"base_link" -> "j12" [label="xyz: 0.1868 -0.1207 0.03 \nrpy: 0 -0 0"]
+"j12" -> "US_FL"
+"base_link" -> "j13" [label="xyz: -0.2028 -0.11845 0.052 \nrpy: 0 -0 3.14159"]
+"j13" -> "US_BL"
+"base_link" -> "j14" [label="xyz: -0.2026 0.07795 0.052 \nrpy: 0 -0 3.14159"]
+"j14" -> "US_BR"
+"base_link" -> "j2" [label="xyz: -0.153447 0.00126091 -0.0537746 \nrpy: 0 -0.0788587 0"]
+"j2" -> "Caster_back"
+"base_link" -> "j25" [label="xyz: 0.199023 0 0.07862 \nrpy: 0 -0 0"]
+"j25" -> "Bumper_link"
+"base_link" -> "j3" [label="xyz: 0 -0.1769 0.03 \nrpy: 0 -0 0"]
+"j3" -> "Motor_left"
+"base_link" -> "j4" [label="xyz: 0 0.1769 0.03 \nrpy: 0 -0 0"]
+"j4" -> "Motor_right"
+"base_link" -> "j5" [label="xyz: 0.192106 -0.0227841 0.119975 \nrpy: 0 -0 0"]
+"j5" -> "intel_camera"
+"base_link" -> "j7" [label="xyz: -0.1085 0.169 0.03 \nrpy: 0 -0 1.5708"]
+"j7" -> "US_RS2"
+"base_link" -> "j8" [label="xyz: 0.14175 -0.164046 0.0255 \nrpy: 0 0 -1.5708"]
+"j8" -> "US_LS1"
+"base_link" -> "j9" [label="xyz: -0.1092 -0.1686 0.03 \nrpy: 0 0 -1.5708"]
+"j9" -> "US_LS2"
+}

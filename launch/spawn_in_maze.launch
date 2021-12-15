@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<launch>
+                
+      
+      <include file="$(find my_worlds)/launch/world3.launch"> 
+
+      </include>
+
+
+      <arg name="x" default="0"/>
+      <arg name="y" default="1.5"/>
+      <arg name="z" default="0"/>
+
+
+      <!--Using Xacro as URDF -->
+      <param 
+      name="robot_description" 
+      command="$(find xacro)/xacro.py $(find rehab_robot)/urdf/rehab_robot.urdf.xacro" />
+
+      <node name="spawn_urdf" 
+      pkg="gazebo_ros" 
+      type="spawn_model" 
+      args="-param robot_description -urdf -model rehab_robot -x $(arg x) -y $(arg y) -z $(arg z)" />   
+
+      <node name="joint_state_publisher" 
+            pkg="joint_state_publisher" 
+            type="joint_state_publisher">
+      <param name="use_gui" value="TRUE"/>
+      </node>
+
+      <node name="robot_state_publisher" 
+      pkg="robot_state_publisher"
+      type="robot_state_publisher"/>  
+      
+     <node pkg="tf" type="static_transform_publisher" name="azure_to_pointCloud" args=" 0 0 0 -1.57 0 -1.57 azure_link point_cloud_link  20" /> 
+      
+      <!--
+      <node name="rviz" 
+      pkg="rviz" 
+      type="rviz" 
+      args="-d $(find rehab_robot)/rviz_config/rehab_robot.rviz"/> 
+      -->
+     
+  </launch>
+
