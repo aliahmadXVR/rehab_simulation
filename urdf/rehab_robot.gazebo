@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <robot name="rehab_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<xacro:property name="width" value="0.2" />
+<xacro:property name="laser_sensor_visible" value="false" />
+<xacro:property name="sonars_visible" value="false" />
+
 
 <!-- ####################################################### -->
 <!-- Differential Drive Plug-in for Driving the base motors -->
@@ -47,7 +49,7 @@
             name="head_hokuyo_sensor">
 
         <pose>0.0 0.0 0 0 0 0</pose>
-        <visualize>true</visualize>
+        <visualize>${laser_sensor_visible}</visualize>
         <update_rate>40</update_rate>
 
         <ray>
@@ -141,7 +143,7 @@
  <gazebo reference="US_FR">        
    <sensor type="ray" name="US_FR">
       
-      <visualize>true</visualize>
+      <visualize>${sonars_visible}</visualize>
       <pose> 0 0 0 0 0 0</pose>
       <update_rate>50</update_rate>
       <ray>
@@ -181,7 +183,7 @@
  <gazebo reference="US_FC">        
    <sensor type="ray" name="US_FC">
       
-      <visualize>true</visualize>
+      <visualize>${sonars_visible}</visualize>
       <pose> 0 0 0 0 0 0</pose>
       <update_rate>50</update_rate>
       <ray>
@@ -222,7 +224,7 @@
  <gazebo reference="US_FL">        
    <sensor type="ray" name="US_FL">
       
-      <visualize>true</visualize>
+      <visualize>${sonars_visible}</visualize>
       <pose> 0 0 0 0 0 0</pose>
       <update_rate>50</update_rate>
       <ray>
@@ -262,7 +264,7 @@
  <gazebo reference="US_LS1">        
    <sensor type="ray" name="US_LS1">
       
-      <visualize>true</visualize>
+      <visualize>${sonars_visible}</visualize>
       <pose> 10 0 0 0 0 0 </pose>
       <update_rate>50</update_rate>
       <ray>
@@ -303,7 +305,7 @@
  <gazebo reference="US_LS2">        
    <sensor type="ray" name="US_LS2">
       
-      <visualize>true</visualize>
+      <visualize>${sonars_visible}</visualize>
       <pose> 0 0 0 0 0 0</pose>
       <update_rate>50</update_rate>
       <ray>
@@ -343,7 +345,7 @@
  <gazebo reference="US_RS1">        
    <sensor type="ray" name="US_RS1">
       
-      <visualize>true</visualize>
+      <visualize>${sonars_visible}</visualize>
       <pose> 0 0 0 0 0 0</pose>
       <update_rate>50</update_rate>
       <ray>
@@ -383,7 +385,7 @@
  <gazebo reference="US_RS2">        
    <sensor type="ray" name="US_RS2">
       
-      <visualize>true</visualize>
+      <visualize>${sonars_visible}</visualize>
       <pose> 0 0 0 0 0 0</pose>
       <update_rate>50</update_rate>
       <ray>
@@ -423,7 +425,7 @@
  <gazebo reference="US_BL">        
    <sensor type="ray" name="US_BL">
       
-      <visualize>true</visualize>
+      <visualize>${sonars_visible}</visualize>
       <pose> 0 0 0 0 0 0</pose>
       <update_rate>50</update_rate>
       <ray>
@@ -463,7 +465,7 @@
  <gazebo reference="US_BR">        
    <sensor type="ray" name="US_BR">
       
-      <visualize>true</visualize>
+      <visualize>${sonars_visible}</visualize>
       <!-- <pose> 0 0 0 0 0 0 </pose>  -->
       <update_rate>50</update_rate>
       <ray>
