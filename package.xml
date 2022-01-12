@@ -73,5 +73,11 @@
   <export>
     <!-- Other tools can request additional information be placed here -->
 
+  <!-- Added for adding the model path in World file -->
+  <gazebo_ros gazebo_model_path="${prefix}"/>
+  <gazebo_ros gazebo_media_path="${prefix}"/>
+
+
+
   </export>
 </package>

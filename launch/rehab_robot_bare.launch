@@ -36,10 +36,10 @@
       type="robot_state_publisher">
       </node> 
 
-      <node name="rviz" 
+<!--      <node name="rviz" 
       pkg="rviz" 
       type="rviz" 
       args="-d $(find rehab_robot)/rviz_config/rehab_robot.rviz"/> 
-     
+    --> 
      <node pkg="tf" type="static_transform_publisher" name="azure_to_pointCloud" args=" 0 0 0 -1.57 0 -1.57 azure_link point_cloud_link  20" /> 
       </launch>

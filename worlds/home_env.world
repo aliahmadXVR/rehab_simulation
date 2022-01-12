@@ -29,7 +29,7 @@
         <geometry>
           <mesh>
             <!-- <uri>/home/ali-ahmed/catkin_ws/src/rehab_robot/meshes/enviorment/walls_visual.dae</uri>-->
-            <uri>/home/ali-ahmed/catkin_ws/src/rehab_robot/meshes/enviorment/walls_visual_colored.dae</uri>
+            <uri>model://meshes/enviorment/walls_visual_colored.dae</uri>
             <scale>1 1 1</scale>
           </mesh>
         </geometry>
@@ -51,7 +51,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>/home/ali-ahmed/catkin_ws/src/rehab_robot/meshes/enviorment/combine_collision.dae</uri>
+            <uri>model://meshes/enviorment/combine_collision.dae</uri>
             <scale>1 1 1</scale>
           </mesh>
         </geometry>
