@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot name="rehab_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<xacro:property name="laser_sensor_visible" value="false" />
+<xacro:property name="laser_sensor_visible" value="true" />
 <xacro:property name="sonars_visible" value="false" />
 
 
@@ -42,10 +42,16 @@
 <!-- Laser Scanner Mounted on Base
      - Specification Used from RPLidar-A2 
      - Website: https://www.slamtec.com/en/Lidar/A2Spec -->
+<!--
+Use <sensor type="gpu_ray" & filename="libgazebo_ros_gpu_laser.so"> 
+for getting actor models detected in LaserScans in gazebo.
 
+Default: <sensor type="ray" & filename="libgazebo_ros_laser.so"> 
+
+-->
 <gazebo reference="Lidar_link">
 
-    <sensor type="ray" 
+    <sensor type="gpu_ray" 
             name="head_hokuyo_sensor">
 
         <pose>0.0 0.0 0 0 0 0</pose>
@@ -76,11 +82,11 @@
         </ray>
             
         <plugin name="gazebo_ros_head_hokuyo_controller" 
-                filename="libgazebo_ros_laser.so">
+                filename="libgazebo_ros_gpu_laser.so">
                 
                 <topicName>/rehab_robot/laser/scan</topicName>
                 <frameName>Lidar_link</frameName>
-
+                
       </plugin>
 
     </sensor>
@@ -527,6 +533,7 @@
    </sensor>
 
 </gazebo>
+
 
 <!-- ####################################################### -->
 <!-- Testing of Simple Motor Plugin -->

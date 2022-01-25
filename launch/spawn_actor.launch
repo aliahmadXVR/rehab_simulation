@@ -3,7 +3,7 @@
                 
       <include file="$(find gazebo_ros)/launch/empty_world.launch">
       
-      <arg name="world_name"    value="$(find rehab_robot)/worlds/actor_online.world"/>
+      <arg name="world_name"    value="$(find rehab_robot)/worlds/actor.world"/>
       <arg name="verbose"       value="true"/>
       <arg name="paused"        value="false"/>
       <arg name="use_sim_time"  value="true"/>
