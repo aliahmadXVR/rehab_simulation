@@ -37,17 +37,18 @@
   type="spawn_model" 
   args="-param robot_description -urdf -model rehab_robot -x $(arg x) -y $(arg y) -z $(arg z)" />   
 
+
   <node name="joint_state_publisher" 
-        pkg="joint_state_publisher" 
-        type="joint_state_publisher">
-  <!-- <param name="use_gui" value="TRUE"/> -->
-  </node>
+        pkg= "joint_state_publisher" 
+        type="joint_state_publisher"> 
+  
+  </node> 
 
   <node name="robot_state_publisher" 
   pkg="robot_state_publisher"
-  type="robot_state_publisher"/>  
-  
-     <node pkg="tf" type="static_transform_publisher" name="azure_to_pointCloud" args=" 0 0 0 -1.57 0 -1.57 azure_link point_cloud_link  20" /> 
+  type="robot_state_publisher"/> 
+
+  <node pkg="tf" type="static_transform_publisher" name="azure_to_pointCloud" args=" 0 0 0 -1.57 0 -1.57 azure_link point_cloud_link  20" /> 
   
  <!-- <node name="rviz" 
   pkg="rviz" 

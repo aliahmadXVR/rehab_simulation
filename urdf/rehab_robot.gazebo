@@ -17,8 +17,8 @@
              filename="libgazebo_ros_diff_drive.so">
 
         <updateRate>20</updateRate> <!-- Plugin update rate in Hz -->
-        <leftJoint>j3</leftJoint> <!-- Name of left joint, defaults to `left_joint` -->
-        <rightJoint>j4</rightJoint> <!-- Name of right joint, defaults to `right_joint` -->
+        <leftJoint>j4</leftJoint> <!-- Name of left joint, defaults to `left_joint` -->
+        <rightJoint>j3</rightJoint> <!-- Name of right joint, defaults to `right_joint` -->
         <wheelSeparation>0.33</wheelSeparation> <!-- The distance from the center of one wheel to the other, in meters, defaults to 0.34 m -->
         <wheelDiameter>0.20</wheelDiameter> <!-- Diameter of the wheels, in meters, defaults to 0.15 m -->
         <wheelAcceleration>0.5</wheelAcceleration> <!-- Wheel acceleration, in rad/s^2, defaults to 0.0 rad/s^2 -->
@@ -31,7 +31,7 @@
         <publishWheelTF>true</publishWheelTF> <!-- Set to true to publish transforms for the wheel links, defaults to false -->
         <publishOdom>true</publishOdom> <!-- Set to true to publish transforms for the odometry, defaults to true -->
         <publishWheelJointState>true</publishWheelJointState> <!-- Set to true to publish sensor_msgs/JointState on /joint_states for the wheel joints, defaults to false -->
-        <!--   <legacyMode>false</legacyMode>--> <!-- Set to true to swap right and left wheels, defaults to true -->
+        <!--<legacyMode>true</legacyMode> --><!-- Set to true to swap right and left wheels, defaults to true -->
     
     </plugin>
 
@@ -533,63 +533,5 @@ Default: <sensor type="ray" & filename="libgazebo_ros_laser.so">
    </sensor>
 
 </gazebo>
-
-
-<!-- ####################################################### -->
-<!-- Testing of Simple Motor Plugin -->
-<!--
-<xacro:include filename="$(find gazebo_ros_motors)/xacro/dc_motor.xacro"/>
-<xacro:dc_motor motor_name="dc_motor" parent_link="Column_link" child_link="tilt_link">
-<xacro:property name="params_yaml" value="$(find gazebo_ros_motors)/params/dc_motor.yaml"/>
-<origin xyz="0 0 0" rpy="0 0 0"/>
-<axis xyz="0 1 0" rpy="0 0 0"/>
-</xacro:dc_motor> -->
-
-
-<!-- ####################################################### -->
-<!-- Simple Camera Plugin for Intel Camera attached on bottom base, currently not used in robot-->
-<!--
-<gazebo reference="intel_camera">
-    <sensor type="camera" name="camera1">
-    
-        <update_rate>30.0</update_rate>
-        <camera name="front">
-            <horizontal_fov>1.3962634</horizontal_fov>
-
-            <image>
-              <width>640</width>
-              <height>480</height>
-              <format>R8G8B8</format>
-            </image>
-
-            <clip>
-                <near>0.02</near>
-                <far>300</far>
-            </clip>
-
-            <noise>
-                <type>gaussian</type>
-                <mean>0.0</mean>
-                <stddev>0.007</stddev>
-            </noise>
-
-        </camera>
-
-        <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
-                <alwaysOn>true</alwaysOn>
-                <updateRate>0.0</updateRate>
-                <cameraName>rehab_robot/intel_camera</cameraName>
-                <imageTopicName>image_raw</imageTopicName>
-                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-                <frameName>intel_camera</frameName>
-                <hackBaseline>0.07</hackBaseline>
-                <distortionK1>0.0</distortionK1>
-                <distortionK2>0.0</distortionK2>
-                <distortionK3>0.0</distortionK3>
-                <distortionT1>0.0</distortionT1>
-                <distortionT2>0.0</distortionT2>
-        </plugin>
-    </sensor>
-</gazebo> -->
 
 </robot>
