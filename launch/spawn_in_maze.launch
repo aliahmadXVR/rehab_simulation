@@ -1,16 +1,30 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <launch>
-                
-      
-      <include file="$(find my_worlds)/launch/world3.launch"> 
-
-      </include>
-
-
+            
+      <arg name="robot" default="machines"/>
+      <arg name="debug" default="false"/>
+      <arg name="gui" default="true"/>
+      <arg name="headless" default="false"/>
+      <arg name="pause" default="false"/>
+      <arg name="world" default="maze" /> 
       <arg name="x" default="0"/>
-      <arg name="y" default="1.5"/>
-      <arg name="z" default="0"/>
+      <arg name="y" default="1.5"/>   
+      <arg name="z" default="0.0"/>  
+      <arg name="verbose" default="true"/>
+      
+      <include file="$(find gazebo_ros)/launch/empty_world.launch">
 
+            <arg name="world_name" value="$(find rehab_robot)/worlds/$(arg world).world"/>
+            <arg name="debug" value="$(arg debug)" />
+            <arg name="gui" value="$(arg gui)" />
+            <arg name="paused" value="$(arg pause)"/>
+            <arg name="use_sim_time" value="true"/>
+            <arg name="headless" value="$(arg headless)"/>
+            <arg name="verbose" value="$(arg verbose)"/>
+            <!--
+                  <env name="GAZEBO_MODEL_PATH" value="$(find simulation_gazebo)/models:$(optenv GAZEBO_MODEL_PATH)"/>
+            -->
+      </include>
 
       <!--Using Xacro as URDF -->
       <param 
@@ -25,7 +39,7 @@
       <node name="joint_state_publisher" 
             pkg="joint_state_publisher" 
             type="joint_state_publisher">
-      <param name="use_gui" value="TRUE"/>
+      
       </node>
 
       <node name="robot_state_publisher" 
