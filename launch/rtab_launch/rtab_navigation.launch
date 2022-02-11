@@ -1,13 +1,13 @@
 <launch>
   
-  <arg name="database_path"     default="rtabmap.db"/>
-  <arg name="localization"      default="true"/>
-  <arg name="args"              default=""/>
-  <arg name="wait_for_transform"  default="0.2"/> 
+  <arg name="database_path"        default="rtabmap.db"/>
+  <arg  name="localization"        default="true"/>
+  <arg  name="args"                default=""/>
+  <arg  name="wait_for_transform"  default="0.2"/> 
+  <!--<arg  name="map_file"            default="$(find rehab_robot)/map/living_lab_map.yaml"/>  -->     <!-- path of map file -->
   
-  <!-- Navigation stuff (move_base) -->
-  <!--<include file="$(find rehab_robot)/launch/rtab_move_base.launch"/>-->
-  
+  <!--<node name="map_server"          pkg="map_server" type="map_server" args="$(arg map_file)" respawn="true" /> -->
+    
   <!-- Mapping -->
   <group ns="rtabmap">
 
@@ -19,13 +19,14 @@
       <param name="wait_for_transform_duration"   type="double"   value="$(arg wait_for_transform)"/>
       <param name="subscribe_depth"               type="bool"     value="true"/>
       <param name="subscribe_scan"                type="bool"     value="true"/>
-    
+      <param name="use_action_for_goal"           type="bool"     value="true"/>
+
       <!-- inputs -->
       <remap from="scan"            to="/rehab_robot/laser/scan"/>
       <remap from="rgb/image"       to="/azure_link/color/image_raw"/>
       <remap from="depth/image"     to="/azure_link/depth/image_raw"/>
       <remap from="rgb/camera_info" to="/azure_link/color/camera_info"/>
-      
+
       <!-- output -->
       <remap from="grid_map" to="/map"/>
     
@@ -51,6 +52,8 @@
    
   </group>
 
+  <!-- Navigation stuff (move_base) -->
+  <!--<include file="$(find rehab_robot)/launch/rtab_launch/rtab_move_base.launch"/>-->
 
   <node name="rviz" 
     pkg="rviz" 

@@ -6,7 +6,6 @@ global_costmap:
   update_frequency: 10.0
   publish_frequency: 10.0
 
-  static_map: true
   rolling_winow: false
 
   inflation_radius: 0.25
