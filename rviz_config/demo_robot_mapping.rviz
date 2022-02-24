@@ -34,7 +34,7 @@ Visualization Manager:
   Class: ""
   Displays:
     - Alpha: 0.5
-      Cell Size: 1
+      Cell Size: 0.30399999022483826
       Class: rviz/Grid
       Color: 160; 160; 164
       Enabled: true
@@ -44,12 +44,12 @@ Visualization Manager:
       Name: Grid
       Normal Cell Count: 0
       Offset:
-        X: 0
-        Y: 0
+        X: 7.550000190734863
+        Y: 7.550000190734863
         Z: 0
       Plane: XY
-      Plane Cell Count: 10
-      Reference Frame: <Fixed Frame>
+      Plane Cell Count: 50
+      Reference Frame: map
       Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
@@ -124,6 +124,7 @@ Visualization Manager:
         MapGraph: true
         Odometry: true
         Path: true
+        PointStamped: true
         RobotModel: true
         Value: true
       Zoom Factor: 1
@@ -321,7 +322,7 @@ Visualization Manager:
       Unreliable: false
       Use Timestamp: false
       Value: true
-    - Alpha: 0.20000000298023224
+    - Alpha: 0.800000011920929
       Class: rviz/Map
       Color Scheme: costmap
       Draw Behind: false
@@ -333,7 +334,7 @@ Visualization Manager:
       Value: true
     - Alpha: 0.800000011920929
       Class: rviz/Map
-      Color Scheme: map
+      Color Scheme: costmap
       Draw Behind: false
       Enabled: true
       Name: Local CostMap
@@ -427,11 +428,38 @@ Visualization Manager:
       Use rainbow: false
       Value: true
     - Class: rviz/Axes
-      Enabled: true
+      Enabled: false
       Length: 1
       Name: Axes
       Radius: 0.10000000149011612
       Reference Frame: map
+      Value: false
+    - Alpha: 0.5
+      Class: rviz/PointStamped
+      Color: 239; 41; 41
+      Enabled: true
+      History Length: 1
+      Name: PointStamped
+      Radius: 0.25
+      Topic: /person_loc
+      Unreliable: false
+      Value: true
+    - Class: rviz/Axes
+      Enabled: false
+      Length: 1
+      Name: Axes
+      Radius: 0.05000000074505806
+      Reference Frame: azure_link
+      Value: false
+    - Alpha: 1
+      Class: rviz/PointStamped
+      Color: 25; 255; 0
+      Enabled: true
+      History Length: 1
+      Name: PointStamped
+      Radius: 0.07999999821186066
+      Topic: /person_loc_estimated
+      Unreliable: false
       Value: true
   Enabled: true
   Global Options:
@@ -461,16 +489,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 25.218101501464844
+      Distance: 14.974008560180664
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 1.0946859121322632
-        Y: -0.540581226348877
-        Z: 0.4184962213039398
+        X: -0.14522406458854675
+        Y: 1.7618672847747803
+        Z: -0.0882350504398346
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
@@ -479,7 +507,7 @@ Visualization Manager:
       Pitch: 1.5697963237762451
       Target Frame: intel_camera
       Value: Orbit (rviz)
-      Yaw: 6.27988338470459
+      Yaw: 4.7148895263671875
     Saved: ~
 Window Geometry:
   Azure Camera:
@@ -499,5 +527,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 932
-  X: 988
+  X: 57
   Y: 27

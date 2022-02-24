@@ -207,3 +207,33 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+add_executable(findpoint src/findpoint.cpp)
+target_link_libraries(findpoint ${catkin_LIBRARIES})
+add_dependencies(findpoint ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(findLoc_in_map src/findLoc_in_map.cpp)
+target_link_libraries(findLoc_in_map ${catkin_LIBRARIES})
+add_dependencies(findLoc_in_map ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(findPersonLoc_in_map src/findPersonLoc_in_map.cpp)
+target_link_libraries(findPersonLoc_in_map ${catkin_LIBRARIES})
+add_dependencies(findPersonLoc_in_map ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(tf_listner src/tf_listner.cpp)
+target_link_libraries(tf_listner ${catkin_LIBRARIES})
+add_dependencies(tf_listner ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(send_goals src/send_goals.cpp)
+target_link_libraries(send_goals ${catkin_LIBRARIES})
+add_dependencies(send_goals ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(publish_point_inCameraLink src/publish_point_inCameraLink.cpp)
+target_link_libraries(publish_point_inCameraLink ${catkin_LIBRARIES})
+add_dependencies(publish_point_inCameraLink ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(publish_text_marker src/publish_text_marker.cpp)
+target_link_libraries(publish_text_marker ${catkin_LIBRARIES})
+add_dependencies(publish_text_marker ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+
+

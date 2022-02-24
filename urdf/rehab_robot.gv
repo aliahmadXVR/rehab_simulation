@@ -47,7 +47,7 @@ node [shape=ellipse, color=blue, fontcolor=blue];
 "j21" -> "Lidar_link"
 "Column_link" -> "j22" [label="xyz: 0.000341148 0.000360989 0.521072 \nrpy: 0 -0 3.14159"]
 "j22" -> "Pan_link"
-"Pan_link" -> "j23" [label="xyz: 0.0189205 0.0568957 0.199268 \nrpy: -1.3723e-05 0.134997 0"]
+"Pan_link" -> "j23" [label="xyz: 0.0189205 0.0568957 0.199268 \nrpy: -1.3723e-05 0 0"]
 "j23" -> "tilt_link"
 "tilt_link" -> "j232" [label="xyz: 0.070862 -0.0739452 0.0374401 \nrpy: 1.38448e-05 -0.134997 -1.06851e-22"]
 "j232" -> "azure_link"
