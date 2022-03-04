@@ -116,6 +116,7 @@ class MAP_TAG
         else 
         {
           CURRENT = away_loc;
+          loc_info.robot_location = "Away";
           cout<<"--Away--"<<endl;
         }
     }
