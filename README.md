@@ -1,5 +1,5 @@
 
-## Overview ![Version](https://img.shields.io/badge/MRR-XAVOR-yellow) ![Version](https://img.shields.io/badge/ver-1.0-green)
+# Simulation Overview ![Version](https://img.shields.io/badge/MRR-XAVOR-yellow)<img align="right" src="images/xavro_logo.png" width="40" height="40">
 
 This repository contains the Gazebo-ROS simulation of MRR robot being developed at [Xavor Coorporation](https://www.xavor.com). The aim of this simualtion is to replicate the actual robot in nearly every means to test navigation and other different enviorment scenerios. [Gazebo](http://gazebosim.org/) is used as the simulator due to its verstile use in robotics and its integration ease with [ROS](https://www.ros.org/). 
 
@@ -17,6 +17,18 @@ This repository contains the Gazebo-ROS simulation of MRR robot being developed 
 3. __Gazebo-ROS-Packages__
   
     On top of Gazebo, the Gazebo-ROS-Packages are essentially needed for this simulation. The serve as a brigde between *ROS* and *Gazebo*. Installtion and working instructions can be followed [here](https://gazebosim.org/tutorials?tut=ros_installing&cat=connect_ros).
+
+4. __RTAB-MAP__
+   
+   The mapping/ navigation has been implementated using RTAB-MAP. See the [instruction](https://github.com/introlab/rtabmap_ros) to properly install the package before setting up the simulation.
+
+5. __Move-Base Package__
+   
+   The navigation of robot has been done using the ```move_base``` package. See the [instructions]() for complete guide. Run the following command for installation. 
+
+   ```sudo apt-get install ros-melodic-move-base*```
+
+
 
 ## Setup 
 
@@ -105,29 +117,34 @@ After successsfully launching both files, you should see the following result.
 Provide the goal from ```RVIZ``` goal menu. The robot will be able to navigate inside the map area. 
 
 
+## Under Development Work ![Version](https://img.shields.io/badge/status-under%20development-yellowgreen)
+
+### Adding an Actor in the Simulation
+
+This work was done in order to animate an actor inside the above developed simulation. The aim was to somehow model the elderly person inside the living lab area and then test the navigation algorithms and the mobility index calculation algorithms being developed by the AI team. This work is still under progress and has not been used anywhere to test due to extensive work required in simulating the animation of person in various styles. 
+
+Launch the below mentioned file to see the actor spawing inside Gazebo. Further complete details on spawing an actor and modeling etc can be found [here](http://gazebosim.org/tutorials?tut=actor&cat=build_robot).
 
 
+```roslaunch rehab_robot spawn_actor.launch```
+
+![Alt text](images/actor_work.png)
 
 
- 
+### Gmapping Implementation for Navigation
+
+Apart from RTAB-Map based mapping/ navigation, Gmapping based navigation is also being developed for evaluation of both techniques. This work is still not complete. Will be update soon. Details on Gmapping can be found [here](http://wiki.ros.org/gmapping).
 
 
+### Person Location/ Time Tracking Inside Map
 
+This work is similar to the work described [here](https://github.com/aliahmadXVR/rehab_person_loc). The aim is to find the location of robot and person inside the map while navigating and also to calcuate the duration the person spends at various areas inside the map. This work has been implemented [here](https://github.com/aliahmadXVR/rehab_person_loc) and tested on actual robot. It will be 
+availble to test in simulation soon. 
 
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- ## Contact
+___
+<br/><br/>
+## Contact 
 **Author:** Ali Ahmad  <br/>
-**Designation:** Senior Robotic Engineer <br/>
+**Designation:** Senior Robotics Engineer <br/>
 **Email:** ali.ahmad@xavor.com <br/>
- -->
+<!-- <img align="left" src="images/xavro_logo.png" width="40" height="40"> -->
