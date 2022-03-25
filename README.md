@@ -1,5 +1,6 @@
 
-## Overview
+## Overview ![Version](https://img.shields.io/badge/MRR-XAVOR-yellow) ![Version](https://img.shields.io/badge/ver-1.0-green)
+
 This repository contains the Gazebo-ROS simulation of MRR robot being developed at [Xavor Coorporation](https://www.xavor.com). The aim of this simualtion is to replicate the actual robot in nearly every means to test navigation and other different enviorment scenerios. [Gazebo](http://gazebosim.org/) is used as the simulator due to its verstile use in robotics and its integration ease with [ROS](https://www.ros.org/). 
 
 
@@ -75,8 +76,40 @@ The robot can be moved around using the teleop node. Run the following node to m
 ```rosrun teleop_twist_keyboard teleop_twist_keyboard.py```
 
 
+## RTAB-Map Based Mapping/ Navigation
+
+The basic mappinga and navigation has been implemented on the robot using the [RTAB-MAP](http://wiki.ros.org/rtabmap_ros). Detailed information on setting up mapping and navigation using RTAB-Map can be seen [here](http://wiki.ros.org/rtabmap_ros/Tutorials/SetupOnYourRobot)
+
+### Mapping the Environment
+
+Launch any of the above described world file to start the mapping. After that launch the mapping using:
+
+```roslaunch rehab_robot rtab_mapping.launch```
+
+Move the robot in the environment using teleop node to create the map of the area. 
+
+### Running the Navigation
+
+Once mapping has been done, the next step is navigate the robot autonomously. Run the navigation file using:
+
+```roslaunch rehab_robot rtab_navigation.launch```
+
+Then, run the ```move_base``` launch file for moving the robot inside the area. Details on ```move_base``` can be found [here](http://wiki.ros.org/move_base).
+
+```roslaunch rehab_robot rtab_move_base.launch```
+
+After successsfully launching both files, you should see the following result.
+
+![Alt text](images/move_base.png)
+
+Provide the goal from ```RVIZ``` goal menu. The robot will be able to navigate inside the map area. 
 
 
+
+
+
+
+ 
 
 
 
