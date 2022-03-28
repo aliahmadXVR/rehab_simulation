@@ -53,7 +53,8 @@ This project spawns the Rehab Robot in various scenerios. The basic standalone s
 
   Make sure no errors are there no errors appearing on the terminal other than the ones shown below. These errors have no linkages with simulation. They will be removed in next update to the package.
 
-   ![Alt text](images/initial_errors.png) 
+   <!-- ![Alt text](images/initial_errors.png) -->
+   <img align="center" src="images/initial_errors.png" width="350" height="300"> 
 
 After this step, you should see the robot spawned in Gazebo like the one shown below. 
 
@@ -143,8 +144,8 @@ availble to test in simulation soon.
 
 ___
 <br/><br/>
-## Contact 
+## Contact <img align="right" src="images/xavro_logo.png" width="40" height="40">  
 **Author:** Ali Ahmad  <br/>
 **Designation:** Senior Robotics Engineer <br/>
 **Email:** ali.ahmad@xavor.com <br/>
-<!-- <img align="left" src="images/xavro_logo.png" width="40" height="40"> -->
+
