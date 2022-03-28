@@ -237,9 +237,12 @@ add_executable(publish_text_marker src/publish_text_marker.cpp)
 target_link_libraries(publish_text_marker ${catkin_LIBRARIES})
 add_dependencies(publish_text_marker ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
+
 add_executable(getTime src/getTime.cpp)
 target_link_libraries(getTime ${catkin_LIBRARIES})
 add_dependencies(getTime ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+
 
 
 

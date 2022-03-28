@@ -54,10 +54,12 @@ class MAP_TAG
     geometry_msgs::PointStamped robot_loc_map;
     geometry_msgs::PointStamped person_loc_cam;
     geometry_msgs::PointStamped person_loc_map;
+    geometry_msgs::PoseStamped goal_loc_map;
+
     LOC_TAG CURRENT_R, CURRENT_P;
     rehab_robot::location_info loc_info;
     rehab_robot::time_info time_info;
-
+    
     struct TIME_TRACK
     {
         double kitchen;
@@ -174,6 +176,58 @@ class MAP_TAG
         }
     }
 
+    bool FindGoal_loc(double x, double y)
+    {
+        if (x > kitchen.x1 and x < kitchen.x2 and y > kitchen.y1 and y < kitchen.y2)
+        {
+          
+          loc_info.goal_location = "Inside Kitchen";
+          //cout<<"Person is *Inside Kitchen"<<endl;
+        }
+
+        else if (x > lounge.x1 and x < lounge.x2 and y > lounge.y1 and y < lounge.y2)
+        {
+         
+          loc_info.goal_location = "Inside Lounge";
+          //cout<<"Person is *Inside Lounge"<<endl;        
+        }
+        
+        else if (x > entrance.x1 and x < entrance.x2 and y > entrance.y1 and y < entrance.y2)
+        {
+          
+          loc_info.goal_location = "At Entrance";
+          //cout<<"Person is *At Entrance"<<endl;
+        }
+        
+        else if (x > lobby.x1 and x < lobby.x2 and y > lobby.y1 and y < lobby.y2)
+        {
+          
+          loc_info.goal_location = "Inside Lobby";
+          //cout<<"Person is *Inside Lobby"<<endl; 
+        }
+
+        else if (x > tvRoom.x1 and x < tvRoom.x2 and y > tvRoom.y1 and y < tvRoom.y2)
+        {
+         
+          loc_info.goal_location = "Inside TvRoom";
+          //cout<<"Person is *Inside TV Room"<<endl;
+        }
+
+        else if (x > bedRoom.x1 and x < bedRoom.x2 and y > bedRoom.y1 and y < bedRoom.y2)
+        {
+          
+          loc_info.goal_location = "Inside BedRoom";
+          //cout<<"Person is *Inside Bedroom"<<endl;
+        }
+        
+        else 
+        {
+          
+          loc_info.goal_location = "Away";
+          //cout<<"--Away--"<<endl;
+        }
+    }// 
+
 } robot;
 
 //CallBack Function for Subscriber to /rtabmap/localization_pose)  //Not being used anymore//
@@ -197,6 +251,16 @@ void person_loc_callback(const geometry_msgs::PointStamped::ConstPtr& msg)
     robot.person_loc_cam.point.z = msg->point.z;
 
 }
+
+//void goalCallback(const geometry_msgs::PoseStamped::ConstPtr& msg)
+//{  
+    //robot.goal_loc_map.pose.position.x = msg->pose.position.x;
+   // robot.goal_loc_map.pose.position.y = msg->pose.position.y;
+   // cout<<"Goal X: "<<robot.goal_loc_map.pose.position.x<<endl;
+    //cout<<"Goal Y: "<<robot.goal_loc_map.pose.position.y<<endl;
+
+//}
+
 
 //Timer Callback
 void timerCallback(const ros::TimerEvent&)
@@ -256,15 +320,17 @@ void timerCallback(const ros::TimerEvent&)
 
 int main(int argc, char **argv)
 {
-
     ros::init(argc, argv, "track_person_time");
     ros::NodeHandle n;
+
     ros::Subscriber robot_sub = n.subscribe("/rtabmap/localization_pose", 1000,localization_poseCallback);
     ros::Subscriber person_sub = n.subscribe("/person_loc", 1000,person_loc_callback);
+    //ros::Subscriber goal_sub = n.subscribe("/move_base_simple/goal ", 1000, goalCallback);
     ros::Publisher person_Loc_pub = n.advertise<geometry_msgs::PointStamped>("/person_loc_estimated", 1000);
     ros::Publisher location_pub = n.advertise<rehab_robot::location_info>("/location_tag", 1000);
     ros::Publisher time_pub = n.advertise<rehab_robot::time_info>("/time_info", 1000);
     ros::Timer timer = n.createTimer(ros::Duration(1.0), timerCallback);
+
     ros::Rate loop_rate(10);
     unsigned int seq = 0;
     
@@ -282,7 +348,7 @@ int main(int argc, char **argv)
             listener.waitForTransform("/map", "/azure_link",
                                     now, ros::Duration(3.0));
             
-            cout<<"Got the Transform"<<endl;                                    
+            //cout<<"Got the Transform"<<endl;                                    
             
             listener.lookupTransform("/map", "/azure_link",  
                                     now, transform);
@@ -295,10 +361,7 @@ int main(int argc, char **argv)
             ros::Duration(1.0).sleep();
         }
 
-        //Location Update over ROSTopic//
-        robot.loc_info.stamp = ros::Time::now();
-        robot.loc_info.frame_id = "map";
-        location_pub.publish(robot.loc_info);
+        
 
         //Time Update over ROSTopic//
         robot.time_info.kitchen_time = robot.person_time.kitchen;
@@ -311,10 +374,16 @@ int main(int argc, char **argv)
         time_pub.publish(robot.time_info);
 
 
+        //Location Update over ROSTopic//
+        robot.loc_info.stamp = ros::Time::now();
+        robot.loc_info.frame_id = "map";
         
         //Timing Part
         robot.FindPerson(robot.person_loc_map.point.x,robot.person_loc_map.point.y);
         robot.FindRobot(robot.robot_loc_map.point.x,robot.robot_loc_map.point.y);
+        robot.FindGoal_loc(robot.goal_loc_map.pose.position.x,robot.goal_loc_map.pose.position.y);
+        location_pub.publish(robot.loc_info);
+
         /*cout<<"---"<<endl;
         cout<<"Current Loc Tag: "<<robot.CURRENT<<endl;
 
