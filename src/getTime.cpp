@@ -19,6 +19,8 @@
 #include <cmath>
 #include "rehab_robot/location_info.h"
 #include "rehab_robot/time_info.h"
+#include<ctime> // used to work with  system date and time
+#include <fstream>
 
 using namespace std;
 
@@ -36,7 +38,24 @@ class MAP_TAG
     }kitchen,lounge,entrance,tvRoom,bedRoom,lobby;
  
     enum LOC_TAG{kitchen_loc=1, lounge_loc=2, entrance_loc=3, lobby_loc=4, tvRoom_loc=5, bedRoom_loc=6, away_loc=7};
+    
+    time_t t; // t passed as argument in function time()
+    struct tm * tt; // decalring variable for localtime()
+    string log_file_loc = "rehab_robot_log.txt";
 
+
+
+    void init_log_file()
+    {
+      //myfile.open ("example.bin", ios::out | ios::app)
+      ofstream myfile;
+      myfile.open (log_file_loc,ios::out | ios::app );
+      myfile << "\n \n";
+      myfile << "Date & Time \t \t \t \t Robot Location \t Person Location \n";
+      myfile.close();
+    }
+
+    
     public:
 
     MAP_TAG()
@@ -49,6 +68,9 @@ class MAP_TAG
         tvRoom.x1   = 0.52; tvRoom.y1   = 7.57;  tvRoom.x2   = 4.63;   tvRoom.y2   = 12.12; 
         bedRoom.x1  = 5.2;  bedRoom.y1  = 7.4;   bedRoom.x2  = 8.9;    bedRoom.y2  = 12.1;
         cout<<"Coordinates of MAP Initilized"<<endl;
+        init_log_file();
+        cout<<"Log file initilized"<<endl;
+
     }
 
     geometry_msgs::PointStamped robot_loc_map;
@@ -71,6 +93,33 @@ class MAP_TAG
         double away;
     }person_time;
     
+
+
+    string get_time_local()
+    {
+        time (&t); //passing argument to time()
+        tt = localtime(&t);
+        // cout << "Current Day, Date and Time is = "<< asctime(tt)<<endl;
+        string time_string;
+        time_string = asctime(tt);
+        time_string.erase(std::remove(time_string.begin(), time_string.end(), '\n'), time_string.end());
+        return time_string;
+    }
+
+    void write_log()
+    {
+      ofstream myfile;
+      myfile.open (log_file_loc,ios::out | ios::app );
+      // myfile << "Date & Time \t \t Robot Location \t Person Location \n";
+      myfile<<get_time_local();
+      myfile<<"\t \t";
+      myfile<<loc_info.robot_location;
+      myfile<<"\t";
+      myfile<<loc_info.person_location;
+      myfile<<"\n";
+      myfile.close();
+    }
+
     bool FindPerson(double x, double y)
     {
         if (x > kitchen.x1 and x < kitchen.x2 and y > kitchen.y1 and y < kitchen.y2)
@@ -122,7 +171,6 @@ class MAP_TAG
           //cout<<"--Away--"<<endl;
         }
     }// 
-
 
     bool FindRobot(double x, double y)
     {
@@ -314,6 +362,8 @@ void timerCallback(const ros::TimerEvent&)
     break;
   }
 
+  robot.write_log();
+
 }
 
 
@@ -335,6 +385,7 @@ int main(int argc, char **argv)
     unsigned int seq = 0;
     
     cout<<"Publishers and Subscribers Initialized"<<endl;
+
 
     tf::TransformListener listener;
 
@@ -361,8 +412,8 @@ int main(int argc, char **argv)
             ros::Duration(1.0).sleep();
         }
 
-        
-
+        // cout<<"Current Time--"<<robot.get_time_local();
+       
         //Time Update over ROSTopic//
         robot.time_info.kitchen_time = robot.person_time.kitchen;
         robot.time_info.lounge_time = robot.person_time.lounge;
