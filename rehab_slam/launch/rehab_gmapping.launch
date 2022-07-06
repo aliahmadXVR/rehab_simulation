@@ -1,0 +1,26 @@
+<launch>
+  <!-- Arguments -->
+  <!-- The lua scripts are required for cartographer, unused here -->
+  <arg name="configuration_basename" default="diffbot_lds_2d.lua"/>
+  <arg name="set_base_frame" default="base_link"/>
+  <arg name="set_odom_frame" default="odom"/>
+  <arg name="set_map_frame"  default="map"/>
+  <arg name="open_rviz" default="true"/>
+  <!-- gmapping expects the laser scan on the scan topic 
+       but DiffBot provides this in the diffbot namespace -->
+  <arg name="scan_topic"  default="/rehab_robot/laser/scan"/>
+
+  <!-- Gmapping -->
+  <node pkg="gmapping" type="slam_gmapping" name="diffbot_slam_gmapping" output="screen">
+    <param name="base_frame" value="$(arg set_base_frame)"/>
+    <param name="odom_frame" value="$(arg set_odom_frame)"/>
+    <param name="map_frame"  value="$(arg set_map_frame)"/>
+    <rosparam command="load" file="$(find rehab_slam)/config/gmapping_params.yaml" />
+    <!-- remappings -->
+    <remap from="scan" to="$(arg scan_topic)"/>
+  </node>
+  <group if="$(arg open_rviz)"> 
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+          args="-d $(find rehab_slam)/rviz/rehab_gmapping.rviz"/>
+  </group>
+</launch>

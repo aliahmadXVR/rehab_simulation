@@ -1,0 +1,133 @@
+
+# # The footprint of the robot specified in the robot_base_frame coordinate frame as a list in the format: 
+# # [ [x1, y1], [x2, y2], ...., [xn, yn] ]. The footprint specification assumes the center point of the robot is at 
+# # (0.0, 0.0) in the robot_base_frame and that the points are specified in meters, 
+# # both clockwise and counter-clockwise orderings of points are supported.
+# footprint: [[-0.2, -0.24], [-0.2, 0.24], [0.2, 0.24], [0.2, -0.24]]
+# #robot_radius: 0.17
+# map_type: costmap
+# obstacle_layer:
+#   enabled:              true
+#   max_obstacle_height:  1.2
+#   origin_z:             0.0
+#   z_resolution:         0.2
+#   z_voxels:             2
+#   unknown_threshold:    15
+#   mark_threshold:       0
+#   combination_method:   1
+#   track_unknown_space:  true    #true needed for disabling global path planning through unknown space
+#   obstacle_range: 2.5
+#   raytrace_range: 10
+#   origin_z: 0.0
+#   z_resolution: 0.2
+#   z_voxels: 2
+#   publish_voxel_map: false
+#   # observation_sources:  scan bump
+#   observation_sources: bump
+#   # scan:
+#   #    data_type: LaserScan
+#   #    sensor_frame: Lidar_link
+#   #    topic: scan
+#   #    marking: true
+#   #    clearing: true
+#     # min_obstacle_height: 0.25
+#     # max_obstacle_height: 0.35
+#   bump:
+#     data_type: PointCloud2
+#     sensor_frame: rgb_camera_link
+#     topic: points2
+#     marking: true
+#     clearing: true
+#     min_obstacle_height: 0.1
+#     max_obstacle_height: 1.2
+#   # bump:
+#   #   data_type: PointCloud2
+#   #   topic: mobile_base/sensors/bumper_pointcloud
+#   #   marking: true
+#   #   clearing: false
+#   #   min_obstacle_height: 0.0
+#   #   max_obstacle_height: 0.15
+#   # for debugging only, let's you see the entire voxel grid
+
+# #cost_scaling_factor and inflation_radius were now moved to the inflation_layer ns
+# inflation_layer:
+#   enabled:              true
+#   cost_scaling_factor:  5.0  # exponential rate at which the obstacle cost drops off (default: 10)
+#   inflation_radius:     0.5  # max. distance from an obstacle at which costs are incurred for planning paths.
+
+# static_layer:
+#   enabled:              true
+
+# #point_cloud_sensor: {sensor_frame : rgb_camera_link, data_type: PointCloud2, topic: points2,  marking: true, clearing: true, obstacle_range: 2.0, raytrace_range: 3.0, min_obstacle_height: 0.03, max_obstacle_height: 1.2} 
+# # Definition of the "scan" observation source. Make sure to set the sensor_frame to the same 
+# # name of the laser frame link that is defined in the robot_description. Otherwise the local costamp won't work.
+# # scan: {sensor_frame: Lidar_link, data_type: LaserScan, topic: scan, marking: true, clearing: true}
+
+# obstacle_range: 3.0
+# raytrace_range: 8.0
+# footprint: [[-0.2, -0.24], [-0.2, 0.24], [0.2, 0.24], [0.2, -0.24]]
+# inflation_layer:
+#   inflation_radius: 1.2
+#   cost_scaling_factor: 0.5
+
+
+# http://wiki.ros.org/costmap_2d/flat
+# The default maximum distance from the robot at which an obstacle will be inserted into the cost map in meters.
+# This can be over-ridden on a per-sensor basis.
+# obstacle_range: 3.0
+# The default range in meters at which to raytrace out obstacles from the map using sensor data. 
+# This can be over-ridden on a per-sensor basis.
+# raytrace_range: 3.5
+
+# The footprint of the robot specified in the robot_base_frame coordinate frame as a list in the format: 
+# [ [x1, y1], [x2, y2], ...., [xn, yn] ]. The footprint specification assumes the center point of the robot is at 
+# (0.0, 0.0) in the robot_base_frame and that the points are specified in meters, 
+# both clockwise and counter-clockwise orderings of points are supported.
+footprint: [[-0.2, -0.2435], [-0.2, 0.235], [0.2, 0.235], [0.2, -0.235]]
+#robot_radius: 0.17
+
+# The radius in meters to which the map inflates obstacle cost values.
+# inflation_radius: 0.60
+# A scaling factor to apply to cost values during inflation. 
+# The cost function is computed as follows for all cells in the costmap further than the inscribed radius distance and 
+# closer than the inflation radius distance away from an actual obstacle: 
+# exp(-1.0 * cost_scaling_factor * (distance_from_obstacle - inscribed_radius)) * (costmap_2d::INSCRIBED_INFLATED_OBSTACLE - 1), 
+# where costmap_2d::INSCRIBED_INFLATED_OBSTACLE is currently 254. 
+# NOTE: since the cost_scaling_factor is multiplied by a negative in the formula, 
+# increasing the factor will decrease the resulting cost values.
+# cost_scaling_factor: 3.0
+
+# What map type to use. "voxel" or "costmap" are the supported types, 
+# with the difference between them being a 3D-view of the world vs. a 2D-view of the world.
+# map_type: costmap
+inflation_layer:
+  inflation_radius: 1.0
+  cost_scaling_factor: 5.0
+
+obstacle_layer:
+  max_obstacle_height: 0.80
+  obstacle_range: 2.0
+  raytrace_range: 2.5
+  map_type: voxel
+  
+  observation_sources: scan 
+  scan: {sensor_frame: Lidar_link, data_type: LaserScan, topic: /rehab_robot/laser/scan , marking: true, clearing: true}
+  # camera_cloud: {sensor_frame : rgb_camera_link, data_type: PointCloud2, topic: /points2,  marking: true, clearing: true, min_obstacle_height: 0.1} 
+
+
+# range_sensor_layer:
+#   clear_threshold:    0.2
+#   mark_threshold:     0.8
+#   clear_on_max_reading: false
+#   topics: ["/ultrasonic_3" , "/ultrasonic_4"]
+# The "observation_sources" parameter defines a list of ensors that are going to be passing information to 
+# the costmap separated by spaces. Each sensor is defined in the next lines.
+# observation_sources: range1 range2
+# Definition of the "scan" observation source. Make sure to set the sensor_frame to the same 
+# name of the laser frame link that is defined in the robot_description. Otherwise the local costamp won't work.
+# scan: {sensor_frame: Lidar_link, data_type: LaserScan, topic: scan, marking: true, clearing: true}
+# point_cloud_sensor: {sensor_frame : rgb_camera_link, data_type: PointCloud2, topic: points2,  marking: true, clearing: true, min_obstacle_height: 0.2} 
+
+# bumper: {data_type: PointCloud2, topic: /bumper2pointcloud/pointcloud,  marking: true, clearing: false, min_obstacle_height: 0.0, max_obstacle_height: 0.15} 
+# range1: {sensor_frame: US_FL, data_type: Range, topic: /ultrasonic_3, marking: true, clearing: false, min_obstacle_height: 0.0, max_obstacle_height: 0.15}
+# range2: {sensor_frame: US_FR, data_type: Range, topic: /ultrasonic_4, marking: true, clearing: false, min_obstacle_height: 0.0, max_obstacle_height: 0.15}
