@@ -1,0 +1,42 @@
+TrajectoryPlannerROS:
+
+  # Robot configuration.
+  acc_lim_x:  1.0
+  acc_lim_y:  0.0  # zero for a differential drive robot
+  acc_lim_theta: 0.5 #1.2
+  
+
+  max_vel_x:  1.0
+  min_vel_x:  0.5
+  max_vel_y: 0.0  # zero for a differential drive robot
+  min_vel_y: 0.0
+
+  max_vel_theta: 0.5 #0.08these values are from driving the kobuki using teleop
+  min_vel_theta: -0.5
+  min_in_place_vel_theta : 0.4 #-0.08negative value to allow in place rotation in either direction
+  escape_vel: -0.5 #to allow te robot to escape if it gets stuck
+  
+
+  holonomic_robot: false
+
+# Goal tolerance parameters
+  xy_goal_tolerance:  0.1 #m
+  yaw_goal_tolerance: 0.05 #radians
+
+
+# Forward Simulation parameters
+  sim_time: 2.5 #5 #0.8 
+  sim_granularity: 0.05
+  vtheta_samples: 20
+  vx_samples: 18
+
+  goal_distance_bias: 20.0 #32
+  path_distance_bias: 32.0 #20
+  occdist_scale: 0.01 # how much should the controller try to avoid obstacles
+  heading_lookahead: 0.325 # how far to look ahead when scoring different in-place rotation trajectories
+  scaling_speed: 0.25
+  dwa: false
+
+#oscillation prevention parameters
+  oscillation_reset_dist: 0.5
+  meter_scoring: true #whether to use meters or cells as units 

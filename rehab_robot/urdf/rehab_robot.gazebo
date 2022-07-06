@@ -1,0 +1,537 @@
+<?xml version="1.0"?>
+<robot name="rehab_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:property name="laser_sensor_visible" value="true" />
+<xacro:property name="sonars_visible" value="false" />
+
+
+<!-- ####################################################### -->
+<!-- Differential Drive Plug-in for Driving the base motors -->
+<gazebo>
+
+    <!-- ZLTECH Motor Data Used for Differential Drive, 
+         also the new robot Rehab Robot Parameters are used.
+         Website: https://zltech-hubmotor.en.made-in-china.com/product/XsgmkhKlLjcz/China-8inch-36V-High-Speed-Electric-5n-M-Brushless-Gearless-Servo-Hub-Motor-Wheel-for-Robot.html -->
+
+     <plugin name="differential_drive_controller" 
+             filename="libgazebo_ros_diff_drive.so">
+
+        <updateRate>20</updateRate> <!-- Plugin update rate in Hz -->
+        <leftJoint>j4</leftJoint> <!-- Name of left joint, defaults to `left_joint` -->
+        <rightJoint>j3</rightJoint> <!-- Name of right joint, defaults to `right_joint` -->
+        <wheelSeparation>0.33</wheelSeparation> <!-- The distance from the center of one wheel to the other, in meters, defaults to 0.34 m -->
+        <wheelDiameter>0.20</wheelDiameter> <!-- Diameter of the wheels, in meters, defaults to 0.15 m -->
+        <wheelAcceleration>0.5</wheelAcceleration> <!-- Wheel acceleration, in rad/s^2, defaults to 0.0 rad/s^2 -->
+        <wheelTorque>5</wheelTorque> <!-- Maximum torque which the wheels can produce, in Nm, defaults to 5 Nm -->
+        <commandTopic>cmd_vel</commandTopic> <!-- Topic to receive geometry_msgs/Twist message commands, defaults to `cmd_vel` -->
+        <odometryTopic>odom</odometryTopic> <!-- Topic to publish nav_msgs/Odometry messages, defaults to `odom` -->
+        <odometryFrame>odom</odometryFrame> <!-- Odometry frame, defaults to `odom` -->
+        <robotBaseFrame>base_link</robotBaseFrame> <!-- Robot frame to calculate odometry from, defaults to `base_footprint` -->
+        <odometrySource>0</odometrySource> <!-- Odometry source, 0 for ENCODER, 1 for WORLD, defaults to WORLD -->  
+        <publishWheelTF>true</publishWheelTF> <!-- Set to true to publish transforms for the wheel links, defaults to false -->
+        <publishOdom>true</publishOdom> <!-- Set to true to publish transforms for the odometry, defaults to true -->
+        <publishWheelJointState>true</publishWheelJointState> <!-- Set to true to publish sensor_msgs/JointState on /joint_states for the wheel joints, defaults to false -->
+        <!--<legacyMode>true</legacyMode> --><!-- Set to true to swap right and left wheels, defaults to true -->
+    
+    </plugin>
+
+</gazebo>
+
+
+<!-- ####################################################### -->
+<!-- Laser Scanner Mounted on Base
+     - Specification Used from RPLidar-A2 
+     - Website: https://www.slamtec.com/en/Lidar/A2Spec -->
+<!--
+Use <sensor type="gpu_ray" & filename="libgazebo_ros_gpu_laser.so"> 
+for getting actor models detected in LaserScans in gazebo.
+
+Default: <sensor type="ray" & filename="libgazebo_ros_laser.so"> 
+
+-->
+<gazebo reference="Lidar_link">
+
+    <sensor type="gpu_ray" 
+            name="head_hokuyo_sensor">
+
+        <pose>0.0 0.0 0 0 0 0</pose>
+        <visualize>${laser_sensor_visible}</visualize>
+        <update_rate>40</update_rate>
+
+        <ray>
+            <scan>
+              <horizontal>
+                <samples>400</samples>
+                <resolution>0.9</resolution>
+                <min_angle>-3.141</min_angle>
+                <max_angle>3.141</max_angle>
+              </horizontal>
+            </scan>
+
+            <range>
+              <min>0.2</min>
+              <max>16.0</max>
+              <resolution>0.01</resolution>
+            </range>
+
+            <noise>
+              <type>gaussian</type>
+              <mean>0.0</mean>
+              <stddev>0.01</stddev>
+            </noise>
+        </ray>
+            
+        <plugin name="gazebo_ros_head_hokuyo_controller" 
+                filename="libgazebo_ros_gpu_laser.so">
+                
+                <topicName>/rehab_robot/laser/scan</topicName>
+                <frameName>Lidar_link</frameName>
+                
+      </plugin>
+
+    </sensor>
+</gazebo> 
+
+<!-- ####################################################### -->
+<!-- Plugin for Azure Kinect, curently only outputs RGB image and Depthcloud 
+     Source: Microsoft Kinect Openni Plugin (Gazebo-ROS Plugins Tutorials)  -->
+
+<gazebo reference="point_cloud_link">
+  <sensor name="azure_link_camera" type="depth">
+ 
+    <update_rate>10</update_rate>
+    <camera>
+      <!--<pose> 0 0 0 0 0 0</pose> -->
+      <horizontal_fov>1.047198</horizontal_fov>
+      <image>
+        <width>640</width>
+        <height>480</height>
+        <format>R8G8B8</format>
+      </image>
+      <clip>
+        <near>0.05</near>
+        <far>10</far>
+      </clip>
+    </camera>
+    <plugin name="azure_link_controller" filename="libgazebo_ros_openni_kinect.so">  <!--Default:  -->
+      <baseline>0.2</baseline>
+      <alwaysOn>true</alwaysOn>
+      <updateRate>1.0</updateRate>   <!-- Default: 1.0 -->
+      <cameraName>azure_link_ir</cameraName>
+      <imageTopicName>/azure_link/color/image_raw</imageTopicName>
+      <cameraInfoTopicName>/azure_link/color/camera_info</cameraInfoTopicName>
+      <depthImageTopicName>/azure_link/depth/image_raw</depthImageTopicName>
+      <depthImageInfoTopicName>/azure_link/depth/camera_info</depthImageInfoTopicName>
+      <pointCloudTopicName>/azure_link/depth/points</pointCloudTopicName>
+      <frameName>point_cloud_link</frameName>
+      <pointCloudCutoff>0.5</pointCloudCutoff>
+      <pointCloudCutoffMax>3.0</pointCloudCutoffMax>
+      <distortionK1>0.00000001</distortionK1>
+      <distortionK2>0.00000001</distortionK2>
+      <distortionK3>0.00000001</distortionK3>
+      <distortionT1>0.00000001</distortionT1>
+      <distortionT2>0.00000001</distortionT2>
+      <CxPrime>0</CxPrime>
+      <Cx>0</Cx>
+      <Cy>0</Cy>
+      <focalLength>0</focalLength>
+      <hackBaseline>0</hackBaseline>
+    </plugin>
+  </sensor>
+</gazebo>
+
+<!-- ####################################################### -->
+<!-- IR Sensor / SONAR Plugin
+     Plugin Source: https://medium.com/teamarimac/integrating-sonar-and-ir-sensor-plugin-to-robot-model-in-gazebo-with-ros-656fd9452607
+     Sensor Data Source: https://cdn.sparkfun.com/datasheets/Sensors/Proximity/HCSR04.pdf --> 
+ 
+ <!-- Front Right -->
+ <gazebo reference="US_FR">        
+   <sensor type="ray" name="US_FR">
+      
+      <visualize>${sonars_visible}</visualize>
+      <pose> 0 0 0 0 0 0</pose>
+      <update_rate>50</update_rate>
+      <ray>
+         <scan>
+            <horizontal>
+               <samples>10</samples>
+               <resolution>1</resolution> 
+               <min_angle>-0.14835</min_angle>
+               <max_angle>0.14835</max_angle>
+            </horizontal>
+            <vertical>
+               <samples>10</samples>
+               <resolution>1</resolution> 
+               <min_angle>-0.14835</min_angle>
+               <max_angle>0.14835</max_angle> 
+            </vertical>
+         </scan>
+         <range>
+            <min>0.02</min>
+            <max>2</max>
+            <resolution>0.03</resolution>
+         </range>
+      </ray>
+      <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
+         <gaussianNoise>0.005</gaussianNoise>
+         <alwaysOn>true</alwaysOn>
+         <updateRate>40</updateRate>
+         <topicName>rehab_robot/sensor/US_FR</topicName>
+         <frameName>US_FR</frameName>
+         <radiation>INFRARED</radiation>
+         <fov>0.2617</fov>
+      </plugin>
+   </sensor>  
+   </gazebo> 
+
+ <!-- Front Center -->
+ <gazebo reference="US_FC">        
+   <sensor type="ray" name="US_FC">
+      
+      <visualize>${sonars_visible}</visualize>
+      <pose> 0 0 0 0 0 0</pose>
+      <update_rate>50</update_rate>
+      <ray>
+         <scan>
+            <horizontal>
+               <samples>10</samples>
+               <resolution>1</resolution> 
+               <min_angle>-0.14835</min_angle>
+               <max_angle>0.14835</max_angle>
+            </horizontal>
+            <vertical>
+               <samples>10</samples>
+               <resolution>1</resolution> 
+               <min_angle>-0.14835</min_angle>
+               <max_angle>0.14835</max_angle> 
+            </vertical>
+         </scan>
+         <range>
+            <min>0.02</min>
+            <max>2</max>
+            <resolution>0.03</resolution>
+         </range>
+      </ray>
+      <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
+         <gaussianNoise>0.005</gaussianNoise>
+         <alwaysOn>true</alwaysOn>
+         <updateRate>40</updateRate>
+         <topicName>rehab_robot/sensor/US_FC</topicName>
+         <frameName>US_FC</frameName>
+         <radiation>INFRARED</radiation>
+         <fov>0.2617</fov>
+      </plugin>
+   </sensor>  
+   </gazebo> 
+
+
+ <!-- Front LEFT -->
+ <gazebo reference="US_FL">        
+   <sensor type="ray" name="US_FL">
+      
+      <visualize>${sonars_visible}</visualize>
+      <pose> 0 0 0 0 0 0</pose>
+      <update_rate>50</update_rate>
+      <ray>
+         <scan>
+            <horizontal>
+               <samples>10</samples>
+               <resolution>1</resolution> 
+               <min_angle>-0.14835</min_angle>
+               <max_angle>0.14835</max_angle>
+            </horizontal>
+            <vertical>
+               <samples>10</samples>
+               <resolution>1</resolution> 
+               <min_angle>-0.14835</min_angle>
+               <max_angle>0.14835</max_angle> 
+            </vertical>
+         </scan>
+         <range>
+            <min>0.02</min>
+            <max>2</max>
+            <resolution>0.03</resolution>
+         </range>
+      </ray>
+      <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
+         <gaussianNoise>0.005</gaussianNoise>
+         <alwaysOn>true</alwaysOn>
+         <updateRate>40</updateRate>
+         <topicName>rehab_robot/sensor/US_FL</topicName>
+         <frameName>US_FL</frameName>
+         <radiation>INFRARED</radiation>
+         <fov>0.2617</fov>
+      </plugin>
+   </sensor>  
+   </gazebo>
+
+ <!-- LEFT Side 1 -->
+ <gazebo reference="US_LS1">        
+   <sensor type="ray" name="US_LS1">
+      
+      <visualize>${sonars_visible}</visualize>
+      <pose> 10 0 0 0 0 0 </pose>
+      <update_rate>50</update_rate>
+      <ray>
+         <scan>
+            <horizontal>
+               <samples>10</samples>
+               <resolution>1</resolution> 
+               <min_angle>-0.14835</min_angle>
+               <max_angle>0.14835</max_angle>
+            </horizontal>
+            <vertical>
+               <samples>10</samples>
+               <resolution>1</resolution> 
+               <min_angle>-0.14835</min_angle>
+               <max_angle>0.14835</max_angle> 
+            </vertical>
+         </scan>
+         <range>
+            <min>0.02</min>
+            <max>2</max>
+            <resolution>0.03</resolution>
+         </range>
+      </ray>
+      <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
+         <gaussianNoise>0.005</gaussianNoise>
+         <alwaysOn>true</alwaysOn>
+         <updateRate>40</updateRate>
+         <topicName>rehab_robot/sensor/US_LS1</topicName>
+         <frameName>US_LS1</frameName>
+         <radiation>INFRARED</radiation>
+         <fov>0.2617</fov>
+      </plugin>
+   </sensor>  
+   </gazebo>
+
+
+ <!-- LEFT Side 2 -->
+ <gazebo reference="US_LS2">        
+   <sensor type="ray" name="US_LS2">
+      
+      <visualize>${sonars_visible}</visualize>
+      <pose> 0 0 0 0 0 0</pose>
+      <update_rate>50</update_rate>
+      <ray>
+         <scan>
+            <horizontal>
+               <samples>10</samples>
+               <resolution>1</resolution> 
+               <min_angle>-0.14835</min_angle>
+               <max_angle>0.14835</max_angle>
+            </horizontal>
+            <vertical>
+               <samples>10</samples>
+               <resolution>1</resolution> 
+               <min_angle>-0.14835</min_angle>
+               <max_angle>0.14835</max_angle> 
+            </vertical>
+         </scan>
+         <range>
+            <min>0.02</min>
+            <max>2</max>
+            <resolution>0.03</resolution>
+         </range>
+      </ray>
+      <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
+         <gaussianNoise>0.005</gaussianNoise>
+         <alwaysOn>true</alwaysOn>
+         <updateRate>40</updateRate>
+         <topicName>rehab_robot/sensor/US_LS2</topicName>
+         <frameName>US_LS2</frameName>
+         <radiation>INFRARED</radiation>
+         <fov>0.2617</fov>
+      </plugin>
+   </sensor>  
+   </gazebo>
+
+ <!-- Right Side 1 -->
+ <gazebo reference="US_RS1">        
+   <sensor type="ray" name="US_RS1">
+      
+      <visualize>${sonars_visible}</visualize>
+      <pose> 0 0 0 0 0 0</pose>
+      <update_rate>50</update_rate>
+      <ray>
+         <scan>
+            <horizontal>
+               <samples>10</samples>
+               <resolution>1</resolution> 
+               <min_angle>-0.14835</min_angle>
+               <max_angle>0.14835</max_angle>
+            </horizontal>
+            <vertical>
+               <samples>10</samples>
+               <resolution>1</resolution> 
+               <min_angle>-0.14835</min_angle>
+               <max_angle>0.14835</max_angle> 
+            </vertical>
+         </scan>
+         <range>
+            <min>0.02</min>
+            <max>2</max>
+            <resolution>0.03</resolution>
+         </range>
+      </ray>
+      <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
+         <gaussianNoise>0.005</gaussianNoise>
+         <alwaysOn>true</alwaysOn>
+         <updateRate>40</updateRate>
+         <topicName>rehab_robot/sensor/US_RS1</topicName>
+         <frameName>US_RS1</frameName>
+         <radiation>INFRARED</radiation>
+         <fov>0.2617</fov>
+      </plugin>
+   </sensor>  
+   </gazebo>
+
+ <!-- Right Side 2 -->
+ <gazebo reference="US_RS2">        
+   <sensor type="ray" name="US_RS2">
+      
+      <visualize>${sonars_visible}</visualize>
+      <pose> 0 0 0 0 0 0</pose>
+      <update_rate>50</update_rate>
+      <ray>
+         <scan>
+            <horizontal>
+               <samples>10</samples>
+               <resolution>1</resolution> 
+               <min_angle>-0.14835</min_angle>
+               <max_angle>0.14835</max_angle>
+            </horizontal>
+            <vertical>
+               <samples>10</samples>
+               <resolution>1</resolution> 
+               <min_angle>-0.14835</min_angle>
+               <max_angle>0.14835</max_angle> 
+            </vertical>
+         </scan>
+         <range>
+            <min>0.02</min>
+            <max>2</max>
+            <resolution>0.03</resolution>
+         </range>
+      </ray>
+      <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
+         <gaussianNoise>0.005</gaussianNoise>
+         <alwaysOn>true</alwaysOn>
+         <updateRate>40</updateRate>
+         <topicName>rehab_robot/sensor/US_RS2</topicName>
+         <frameName>US_RS2</frameName>
+         <radiation>INFRARED</radiation>
+         <fov>0.2617</fov>
+      </plugin>
+   </sensor>  
+   </gazebo> 
+
+ <!-- Back Left  -->
+ <gazebo reference="US_BL">        
+   <sensor type="ray" name="US_BL">
+      
+      <visualize>${sonars_visible}</visualize>
+      <pose> 0 0 0 0 0 0</pose>
+      <update_rate>50</update_rate>
+      <ray>
+         <scan>
+            <horizontal>
+               <samples>10</samples>
+               <resolution>1</resolution> 
+               <min_angle>-0.14835</min_angle>
+               <max_angle>0.14835</max_angle>
+            </horizontal>
+            <vertical>
+               <samples>10</samples>
+               <resolution>1</resolution> 
+               <min_angle>-0.14835</min_angle>
+               <max_angle>0.14835</max_angle> 
+            </vertical>
+         </scan>
+         <range>
+            <min>0.02</min>
+            <max>2</max>
+            <resolution>0.03</resolution>
+         </range>
+      </ray>
+      <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
+         <gaussianNoise>0.005</gaussianNoise>
+         <alwaysOn>true</alwaysOn>
+         <updateRate>40</updateRate>
+         <topicName>rehab_robot/sensor/US_BL</topicName>
+         <frameName>US_BL</frameName>
+         <radiation>INFRARED</radiation>
+         <fov>0.2617</fov>
+      </plugin>
+   </sensor>  
+   </gazebo>
+
+  <!-- Back Right  -->
+ <gazebo reference="US_BR">        
+   <sensor type="ray" name="US_BR">
+      
+      <visualize>${sonars_visible}</visualize>
+      <!-- <pose> 0 0 0 0 0 0 </pose>  -->
+      <update_rate>50</update_rate>
+      <ray>
+         <scan>
+            <horizontal>
+               <samples>10</samples>
+               <resolution>1</resolution> 
+               <min_angle>-0.14835</min_angle>
+               <max_angle>0.14835</max_angle>
+            </horizontal>
+            <vertical>
+               <samples>10</samples>
+               <resolution>1</resolution> 
+               <min_angle>-0.14835</min_angle>
+               <max_angle>0.14835</max_angle> 
+            </vertical>
+         </scan>
+         <range>
+            <min>0.02</min>
+            <max>2</max>
+            <resolution>0.03</resolution>
+         </range>
+      </ray>
+      <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
+         <gaussianNoise>0.005</gaussianNoise>
+         <alwaysOn>true</alwaysOn>
+         <updateRate>40</updateRate>
+         <topicName>rehab_robot/sensor/US_BR</topicName>
+         <frameName>US_BR</frameName>
+         <radiation>INFRARED</radiation>
+         <fov>0.2617</fov>
+      </plugin>
+   </sensor>  
+   </gazebo>
+
+
+<!-- ####################################################### -->
+<!-- Bumper Sensor / Bumper Plugin
+     Plugin Source: http://gazebosim.org/tutorials?tut=ros_gzplugins#Bumper
+     Sensor Data Source: Actual Link to be added here --> 
+<gazebo reference="Bumper_link">
+   <sensor name="bumper" type="contact">   
+
+
+      <selfCollide>true</selfCollide>
+      <alwaysOn>true</alwaysOn>
+      <updateRate>10</updateRate>
+      
+
+      <contact>
+         <collision name="Bumper_link_collision">  </collision>
+      </contact>
+
+      <plugin name="bumper" filename="libgazebo_ros_bumper.so">   
+         <bumperTopicName>/rehab_robot/bumper</bumperTopicName>
+         <frameName>Bumper_link</frameName>
+      </plugin>
+
+   </sensor>
+
+</gazebo>
+
+</robot>

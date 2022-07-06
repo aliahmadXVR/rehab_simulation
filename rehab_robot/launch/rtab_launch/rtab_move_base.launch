@@ -1,0 +1,41 @@
+<!--
+    ROS navigation stack with velocity smoother and safety (reactive) controller
+-->
+<launch>
+ 
+  <arg name="odom_frame_id"         default="/odom"/>
+  <arg name="base_frame_id"         default="/base_link"/>
+  <arg name="global_frame_id"       default="/map"/>
+  <arg name="odom_topic"            default="/odom" />
+  <arg name="laser_topic"           default="/rehab_robot/laser/scan" />
+
+  <!--<remap from="/move_base_simple/goal" to="/rtabmap/goal"/> -->
+
+  <!--<arg name="custom_param_file" default="$(find rehab_robot)/param/dummy.yaml"/> -->
+
+
+    <!--TESTING PHASE ONLY-->
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+
+    <!--Hardware Tested Parameters on Kobuki Base-->
+    <!--<rosparam file="$(find rehab_robot)/param/hardware_tested_params/costmap_common_params.yaml"         command="load" ns="global_costmap" />
+    <rosparam file="$(find rehab_robot)/param/hardware_tested_params/costmap_common_params.yaml"         command="load" ns="local_costmap" />
+    <rosparam file="$(find rehab_robot)/param/hardware_tested_params/local_costmap_params.yaml"          command="load" />
+    <rosparam file="$(find rehab_robot)/param/hardware_tested_params/global_costmap_params.yaml"         command="load" />
+    <rosparam file="$(find rehab_robot)/param/hardware_tested_params/base_local_planner_params.yaml"     command="load" />
+    <rosparam file="$(find rehab_robot)/param/hardware_tested_params/navfn_global_planner_params.yaml"   command="load" /> -->
+
+    <!--Default Parameters (Taken from Internet)-->
+    <rosparam file="$(find rehab_robot)/param/Default/costmap_common_params.yaml"         command="load" ns="global_costmap" />
+    <rosparam file="$(find rehab_robot)/param/Default/costmap_common_params.yaml"         command="load" ns="local_costmap" />
+    <rosparam file="$(find rehab_robot)/param/Default/local_costmap_params.yaml"          command="load" />
+    <rosparam file="$(find rehab_robot)/param/Default/global_costmap_params.yaml"         command="load" />
+    <rosparam file="$(find rehab_robot)/param/Default/base_local_planner_params.yaml"     command="load" />
+
+
+    <!-- <param name="controller_frequency" type="double" value="10.0" /> -->
+
+
+
+  </node>
+</launch> 

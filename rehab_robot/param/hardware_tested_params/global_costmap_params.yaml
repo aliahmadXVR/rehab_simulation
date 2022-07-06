@@ -1,0 +1,20 @@
+global_costmap:
+  global_frame: map
+  robot_base_frame: base_link
+
+  resolution: 0.01
+  update_frequency: 10.0
+  publish_frequency: 10.0
+
+  rolling_winow: false
+
+  inflation_radius: 0.25
+  plugins:
+    - {name: static_map,     type: "costmap_2d::StaticLayer"}
+    - {name: obstacles,     type: "costmap_2d::ObstacleLayer"}
+    - {name: voxel_layer,     type: "costmap_2d::VoxelLayer"}
+    - {name: inflation_layer,     type: "costmap_2d::InflationLayer"}
+  obstacles:
+    observation_sources: laser_scan_sensor
+    laser_scan_sensor: {sensor_frame: Lidar_link, data_type: LaserScan, topic: /rehab_robot/laser/scan, marking: true, clearing: true, min_obstacle_height: -99999.0, max_obstacle_height: 1.5}
+    

@@ -1,0 +1,56 @@
+DWAPlannerROS:
+
+  # Robot configuration.
+  acc_lim_x: 2.5
+  acc_lim_y: 0.0  # zero for a differential drive robot
+  acc_lim_theta: 3.142 #1.2
+  
+
+  max_vel_x: 0.10
+  min_vel_x: -0.08 #-ve for backwards motion
+  max_vel_trans: 0.15 #ex
+  min_vel_trans: 0.05 #ex
+
+  max_vel_y: 0.0  # zero for a differential drive robot
+  min_vel_y: 0.0
+
+  max_vel_theta: 1.0 #0.08these values should from driving the kobuki using teleop
+  min_vel_theta: -1.0
+  max_rot_vel: 0.4 #ex absol val of the max rot vel
+  min_rot_vel: 0.33 #ex absol val of the min rot vel
+
+#  min_in_place_vel_theta : 0.33 #allow in place rotation in either direction#
+#  escape_vel: -0.10 #to allow te robot to escape if it gets stuck
+  
+
+# holonomic_robot: false
+
+# Goal tolerance parameters
+  xy_goal_tolerance:  0.1 #m
+  yaw_goal_tolerance: 0.17 #radians
+
+
+# Forward Simulation parameters
+  sim_time: 2.5 #5 #0.8 
+  sim_granularity: 0.05 #0.025
+  vtheta_samples: 30
+  vx_samples: 18
+  vy_samples: 0
+  controller_frequency: 10.0
+
+#Debugging
+  publish_cost_grid: true
+  publish_traj: true
+
+#Trajectory scoring params
+  goal_distance_bias: 20.0 #32
+  path_distance_bias: 32.0 #20
+  occdist_scale: 0.2 # 0.04how much should the controller try to avoid obstacles
+  forward_point_distance: 0.15 # distance from the center of the robot to place an additional scoring point in m
+  stop_time_buffer: 1.0 # amount of time before a collision a robot must stop
+  scaling_speed: 0.05 # the max vel after which scale the robot's footprint
+
+
+#oscillation prevention parameters
+  oscillation_reset_dist: 0.05
+

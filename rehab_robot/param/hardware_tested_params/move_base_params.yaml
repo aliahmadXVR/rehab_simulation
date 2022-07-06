@@ -1,0 +1,8 @@
+sutdown_costmap: false
+controller_frequency: 10.0 #the rate at which velocity commands are sent to the base
+planner_patience: 5.0  #how long will the planner wait in sec to find a valid plan before space clearing
+controller_patience: 10.0 #how long will the controller wait in seconds without a valid control before space clearing operations
+conservative_reset_dist: 3.0 #The distance away from robot beyond which obstacles are cleared when performing default recovery behaviors
+planner_frequency: 5.0 #rate at which to run the global planner in loop. a val of 0 means it only runs once a new goal is issued
+oscillation_timeout: 5.0 #how long in sec does this oscillate before recovery behaviors
+oscillation_distance: 0.20 #how far in m the robot must travel to be considered to not be oscillating
