@@ -1,3 +1,0 @@
-#ignore .db files (due to large size
-*.db
-.vscode/*
