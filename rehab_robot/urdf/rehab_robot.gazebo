@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot name="rehab_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<xacro:property name="laser_sensor_visible" value="true" />
+<xacro:property name="laser_sensor_visible" value="false" />
 <xacro:property name="sonars_visible" value="false" />
 
 

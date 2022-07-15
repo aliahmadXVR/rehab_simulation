@@ -89,6 +89,22 @@ The robot can be moved around using the teleop node. Run the following node to m
 ```rosrun teleop_twist_keyboard teleop_twist_keyboard.py```
 
 
+## Mapping/ Navigation (Gmapping)
+Gmapping, a 2D-laser based SLAM has been implemented and tested in simulation with the same parameters as used in actual robot. To run the navigation, follow the steps below. 
+
+1. Make sure that the robot is spawned in the living lab Gazebo model.
+   
+2. A 2D map has already been created and stored in the ```rehab_navigation/maps``` folder. 
+3. Launch the following launch file to run the navigation. RVIZ screen will appear with the 2D map as shown below.
+   
+   ```roslaunch rehab_navigation rehab_navigation.launch```
+
+4. Initially the robot might not be localized correclty. Use the 2D-Pose estimate tool from RVIZ toolbar and mark the correct location of robot on map. 
+5. Provide the goal to robot from RVIZ toolbar.
+
+![Alt text](rehab_robot/images/gmapping.png)
+
+
 ## RTAB-Map Based Mapping/ Navigation
 
 The basic mappinga and navigation has been implemented on the robot using the [RTAB-MAP](http://wiki.ros.org/rtabmap_ros). Detailed information on setting up mapping and navigation using RTAB-Map can be seen [here](http://wiki.ros.org/rtabmap_ros/Tutorials/SetupOnYourRobot)
@@ -113,7 +129,7 @@ Then, run the ```move_base``` launch file for moving the robot inside the area. 
 
 After successsfully launching both files, you should see the following result.
 
-![Alt text](images/move_base.png)
+![Alt text](rehab_robot/images/move_base.png)
 
 Provide the goal from ```RVIZ``` goal menu. The robot will be able to navigate inside the map area. 
 
@@ -130,11 +146,6 @@ Launch the below mentioned file to see the actor spawing inside Gazebo. Further 
 ```roslaunch rehab_robot spawn_actor.launch```
 
 ![Alt text](rehab_robot/images/actor_work.png)
-
-
-### Gmapping Implementation for Navigation
-
-Apart from RTAB-Map based mapping/ navigation, Gmapping based navigation is also being developed for evaluation of both techniques. This work is still not complete. Will be update soon. Details on Gmapping can be found [here](http://wiki.ros.org/gmapping).
 
 
 ### Person Location/ Time Tracking Inside Map
