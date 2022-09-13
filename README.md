@@ -24,7 +24,7 @@ This repository contains the Gazebo-ROS simulation of MRR robot being developed 
 
 5. __Move-Base Package__
    
-   The navigation of robot has been done using the ```move_base``` package. See the [instructions]() for complete guide. Run the following command for installation. 
+   The navigation of robot has been done using the ```move_base``` package. See the [instructions](http://wiki.ros.org/move_base) for complete guide. Run the following command for installation. 
 
    ```sudo apt-get install ros-melodic-move-base*```
 
