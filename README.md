@@ -150,7 +150,7 @@ Launch the below mentioned file to see the actor spawing inside Gazebo. Further 
 
 ### Person Location/ Time Tracking Inside Map
 
-This work is similar to the work described [here](https://github.com/aliahmadXVR/rehab_person_loc). The aim is to find the location of robot and person inside the map while navigating and also to calcuate the duration the person spends at various areas inside the map. This work has been implemented [here](https://github.com/aliahmadXVR/rehab_person_loc) and tested on actual robot. It will be 
+The aim is to find the location of robot and person inside the map while navigating and also to calcuate the duration the person spends at various areas inside the map. This work has been implemented [here](https://github.com/aliahmadXVR/rehab_person_loc) and tested on actual robot. It will be 
 availble to test in simulation soon. 
 
 ___
